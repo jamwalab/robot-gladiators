@@ -3,8 +3,17 @@ var randomNumber = function(min, max) {
     return value;
 }
 
+var getPlayerName = function() {
+    var name = "";
+    while (name === "" || name === null) {
+        name = window.prompt("What is your robot's name");    
+    }  
+    console.log("Your robot's name is " + name);
+    return name
+}
+
 var playerInfo = {
-    name: window.prompt("What is your robot's name"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money : 10,
@@ -153,31 +162,14 @@ var shop = function() {
     var shopOptionPrompt = window.prompt("Would you like to REFILL your health (R), UPGRADE your attack (U), or LEAVE the store (L)? Please enter one: 'R' to REFILL, 'U' to UPGRADE, or 'L' to LEAVE.");
     switch (shopOptionPrompt.toUpperCase()) {
         case "R":
-            if (playerInfo.money >= 7) {
-                window.alert("Refilling player's health by 20 for 7 dollars.");
-                playerInfo.health = playerInfo.health + 20;
-                playerInfo.money = playerInfo.money -7;
-            }
-            else {
-                window.alert("Sorry!! you don't have enough money to make the purchase.")
-            }
+            playerInfo.refillHealth();
             break;
-        
         case "U":
-            if (playerInfo.money >= 7) {
-                window.alert("Upgrading player's attack by 6 for 7 dollars.");
-                playerInfo.attack = playerInfo.attack + 6;
-                playerInfo.money = playerInfo.money - 7;
-            }
-            else {
-                window.alert("Sorry!! you don't have enough money to make the purchase.")
-            }
+            playerInfo.upgradeAttack();
             break;
-            
         case "L":
             window.alert("Leaving the store!!");
             break;
-
         default:
             window.alert("You did not pick a valid option, please try again.");
             shop();
