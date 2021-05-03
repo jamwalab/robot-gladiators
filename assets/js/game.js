@@ -1,8 +1,10 @@
+// Function to generate random number
 var randomNumber = function(min, max) {
     var value = Math.floor(Math.random()*(max - min +1) + min);
     return value;
 }
 
+//Function to get player's name
 var getPlayerName = function() {
     var name = "";
     while (name === "" || name === null) {
@@ -12,6 +14,7 @@ var getPlayerName = function() {
     return name
 }
 
+//OBJECT for player details
 var playerInfo = {
     name: getPlayerName(),
     health: 100,
@@ -38,6 +41,8 @@ var playerInfo = {
         }
     }
 };
+
+//OBJECT for enemy details
 var enemyInfo = [
     {
         name: "Roberto",
@@ -52,34 +57,37 @@ var enemyInfo = [
         attack: randomNumber(10, 14)
     }
 ];
-//var enemyNames = ["Roberto", "Amy Android", "Robo Trumble"];
-//var enemyHealth = randomNumber(40, 60);
-//var enemyAttack = 12;
 
+// Function to select whether to fight or skip
+var fightOrSkip =function() {
+    var promptFight = window.prompt("Would you like to FIGHT (F) or SKIP (S) this battle? Enter 'F' to fight or 'S' to skip.");
+
+    if (promptFight === "" || promptFight === null) {
+        window.alert("You need to provide a valid response! Please try again.");
+        return fightOrSkip();
+    }
+        //check if skip was chosen.
+    if (promptFight.toUpperCase() === "S") {
+        //confirm if player wants to quit
+        var confirmSkip = window.confirm("Are you sure you want to quit?");
+        //if skip, leave fight
+        if (confirmSkip) {
+            window.alert(playerInfo.name + " has chosen to skip the fight. Goodbye!");
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            return true;  
+        }
+    }
+}
 
 //---FUNCTION FIGHT() DECLARATION START
 var fight = function(enemy) {
-    //Alert players that they are starting the round.
-    //Game states
-    //"WIN" - Player robot has defeated all enemy-robots
-    // *Fight all enemy robots
-    // *Defeat all enemy robots
-    //"LOSE" - Player robot health is 0 or less
-    while (enemy.health > 0 && playerInfo.health > 0) {
-        var promptFight = window.prompt("Would you like to FIGHT (F) or SKIP (S) this battle? Enter 'F' to fight or 'S' to skip.");
-            //check if skip was chosen.
-        if (promptFight.toUpperCase() === "S") {
-            //confirm if player wants to quit
-            var confirmSkip = window.confirm("Are you sure you want to quit?");
-            //if yes, leave fight
-            if (confirmSkip) {
-                window.alert(playerInfo.name + " has chosen to skip the fight. Goodbye!");
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money",playerInfo.money);
-                break;
-            }
-        }
 
+    while (enemy.health > 0 && playerInfo.health > 0) {
+        
+        if (fightOrSkip()) {
+            //if return true i.e confirm skip, break
+            break;
+        }
         //Subtract player attack from value of enemy health
         var damage = randomNumber(playerInfo.attack-3, playerInfo.attack);
         enemy.health = Math.max(0, enemy.health - damage);
