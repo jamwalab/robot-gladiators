@@ -147,7 +147,6 @@ var startGame = function() {
             }
         }
         else {
-            window.alert("You have lost your robot in battle! Game Over!!");
             break;
         }
     }
@@ -162,7 +161,7 @@ var endGame = function() {
         window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
     }
     else {
-        window.alert("You've lost your robot in the battle.");
+        window.alert("You have lost your robot in battle! Game Over!!");
     }
 
     var playAgainConfirm = window.confirm("Would you like to play again!");
